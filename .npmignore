@@ -1,0 +1,10 @@
+.eslintignore
+.eslintrc.js
+.prettierrc.js
+src
+declaration.d.ts
+tsconfig.json
+yarn.lock
+.gitignore
+webpack
+node_modules

@@ -1,0 +1,31 @@
+{
+  "name": "nenkraft3",
+  "version": "0.0.1",
+  "description": "Rendering stuff",
+  "main": "src/index.ts",
+  "author": "nuuf",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --mode=development --env=development",
+    "build-front": "yarn clean-back && tsc --project src/tsconfig.front.json",
+    "build-back": "yarn clean-front && tsc --project src/tsconfig.back.json",
+    "build-full": "yarn build-front && yarn build-back",
+    "clean-front": "rimraf lib/front",
+    "clean-back": "rimraf lib/back",
+    "clean-full": "rimraf lib"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "html-webpack-plugin": "^4.2.0",
+    "prettier": "^2.0.4",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
