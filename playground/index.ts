@@ -1,5 +1,12 @@
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Tests from './tests/index';
+
+import * as nkf from 'index.front';
+console.log(nkf);
 
 const menuContainer = document.createElement('div', { is: 'div' });
 const container = document.createElement('div', { is: 'div' });

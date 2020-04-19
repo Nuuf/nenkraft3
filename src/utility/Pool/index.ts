@@ -1,3 +1,7 @@
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type FlushHandle<T> = (object: T) => void;
 

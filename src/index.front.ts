@@ -1,7 +1,10 @@
-import Utility from 'utility';
-import Math from 'math';
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
 
-export default {
-  Utility,
-  Math,
-};
+import * as Utility from 'utility';
+import * as Math from 'math';
+import * as Geometry from 'geometry';
+import * as Draw from 'draw';
+
+export { Utility, Math, Geometry, Draw };

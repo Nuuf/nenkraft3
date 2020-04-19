@@ -1,3 +1,7 @@
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
+
 import Vector2 from 'math/Vector2';
 
 export default function (container: HTMLDivElement): void {

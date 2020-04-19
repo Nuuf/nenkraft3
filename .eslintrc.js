@@ -4,11 +4,12 @@ module.exports = {
       jest: "readonly",
       test: "readonly",
       expect: "readonly",
+      Float32Array: "readonly",
     },
     env: {
       browser: true,
       node: true,
-      es6: false,
+      es6: true,
     },
     parserOptions: {
       ecmaVersion: 2018,

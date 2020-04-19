@@ -1,3 +1,9 @@
-import vector2 from './vector2';
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
 
-export default { vector2 };
+import vector2 from './vector2';
+import matrix2 from './matrix2';
+import transform2 from './transform2';
+
+export default { vector2, matrix2, transform2 };

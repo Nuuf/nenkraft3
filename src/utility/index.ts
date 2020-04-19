@@ -1,3 +1,11 @@
-import Pool from './Pool';
+/**
+ * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
+ */
 
-export default { Pool };
+import Pool from './Pool';
+import AssignIfUndefined from './assignIfUndefined';
+
+export default {
+  Pool,
+  AssignIfUndefined,
+};
