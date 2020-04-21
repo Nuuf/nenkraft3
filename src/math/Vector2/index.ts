@@ -17,14 +17,13 @@ export default class Vector2 implements Point2 {
 
   private static PS_POOL: Pool<Vector2> = new Pool(() => new Vector2(0, 0), 1000);
   private static PS_USE_POOL = true;
-  // private static PS_TEMP = new Vector2(0, 0);
 
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
 
-  static get pool(): Pool<Vector2> {
+  static get POOL(): Pool<Vector2> {
     return Vector2.PS_POOL;
   }
 
@@ -113,7 +112,7 @@ export default class Vector2 implements Point2 {
     let dot = 0;
     const result = v.Copy();
 
-    for (let i = 0; i < vectors.length; ++i) {
+    for (var i = 0; i < vectors.length; ++i) {
       dot = Vector2.GetDotProduct(vectors[i], result);
       if (dot > max) max = dot;
       if (dot < min) min = dot;
@@ -123,7 +122,7 @@ export default class Vector2 implements Point2 {
   }
 
   static AddTo(v: Vector2, vectors: Array<Vector2>): Vector2 {
-    for (let i = 0; i < vectors.length; ++i) {
+    for (var i = 0; i < vectors.length; ++i) {
       vectors[i].AddV(v);
     }
 

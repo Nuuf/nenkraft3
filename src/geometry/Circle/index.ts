@@ -2,7 +2,6 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Vector2, { Point2 } from 'math/Vector2';
 
 const { PI } = Math;
@@ -10,6 +9,12 @@ const { PI } = Math;
 export interface BasicCircle {
   center: Point2;
   radius: number;
+}
+
+export interface BasicEllipse {
+  center: Point2;
+  radiusX: number;
+  radiusY: number;
 }
 
 export default class Circle implements BasicCircle {
@@ -20,7 +25,7 @@ export default class Circle implements BasicCircle {
   private _area = 0;
   belongsTo: any;
 
-  constructor({ center: { x, y }, radius }: Circle) {
+  constructor({ center: { x, y }, radius }: BasicCircle) {
     this.center = Vector2.FromPool(x, y);
     this.radius = radius;
   }
@@ -83,8 +88,8 @@ export default class Circle implements BasicCircle {
     return this;
   }
 
-  IntersectsPoint2(v: Vector2): boolean {
-    return this.radiusSquared >= Vector2.GetDistanceSquaredBetween(this.center, v);
+  IntersectsPoint2(p: Point2): boolean {
+    return this.radiusSquared >= Vector2.GetDistanceSquaredBetween(this.center, p);
   }
 
   IntersectsCircle(circle: Circle): boolean {

@@ -2,8 +2,10 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import math from './math';
 import utility from './utility';
-import draw from './draw';
+import math from './math';
+import geometry from './geometry';
+import draw2 from './draw2';
+import entity from './entity';
 
-export default { math, utility, draw };
+export default { utility, math, geometry, draw2, entity };

@@ -2,7 +2,6 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Tests from './tests/index';
 
 import * as nkf from 'index.front';

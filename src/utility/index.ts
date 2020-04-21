@@ -3,9 +3,6 @@
  */
 
 import Pool from './Pool';
-import AssignIfUndefined from './assignIfUndefined';
+import { AssignIfUndefined } from './functions';
 
-export default {
-  Pool,
-  AssignIfUndefined,
-};
+export { Pool, AssignIfUndefined };

@@ -2,13 +2,15 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export interface BasicRectangle {
   x: number;
   y: number;
   width: number;
   height: number;
+}
+
+export interface BasicRoundRectangle extends BasicRectangle {
+  radius: number;
 }
 
 export default class Rectangle implements BasicRectangle {
@@ -17,7 +19,7 @@ export default class Rectangle implements BasicRectangle {
   width: number;
   height: number;
   belongsTo: any;
-  constructor({ x, y, width, height }: Rectangle) {
+  constructor({ x, y, width, height }: BasicRectangle) {
     this.x = x;
     this.y = y;
     this.width = width;
