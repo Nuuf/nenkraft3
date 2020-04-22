@@ -77,14 +77,16 @@ export default class Circle implements BasicCircle {
     return new Circle(this);
   }
 
-  Set(x: number, y: number, radius: number): Circle {
+  Set(x: number, y: number, radius: number): this {
     this.center.Set(x, y);
     this.radius = radius;
+
     return this;
   }
 
-  Scale(scale: number): Circle {
+  Scale(scale: number): this {
     this.radius *= scale;
+
     return this;
   }
 
@@ -94,6 +96,7 @@ export default class Circle implements BasicCircle {
 
   IntersectsCircle(circle: Circle): boolean {
     const radii = this.radius + circle.radius;
+
     return radii * radii >= Vector2.GetDistanceSquaredBetween(this.center, circle.center);
   }
 

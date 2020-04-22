@@ -16,15 +16,17 @@ export default class Pool<T> {
     this.context = context;
   }
 
-  Store(object: T): Pool<T> {
+  Store(object: T): this {
     this.objects.push(object);
+
     return this;
   }
 
-  PreRetrieve(): Pool<T> {
+  PreRetrieve(): this {
     if (this.objects.length === 0) {
       this.Flood();
     }
+
     return this;
   }
 
@@ -32,7 +34,7 @@ export default class Pool<T> {
     return this.PreRetrieve().objects.pop() as T;
   }
 
-  Flood(func?: () => T, amount?: number, context?: any): Pool<T> {
+  Flood(func?: () => T, amount?: number, context?: any): this {
     if (func) this.floodFunction = func;
     if (amount) this.floodAmount = amount;
     if (context) this.context = context;
@@ -40,22 +42,27 @@ export default class Pool<T> {
     for (var i = 0; i < this.floodAmount; ++i) {
       this.Store(this.floodFunction.call(this.context));
     }
+
     return this;
   }
 
-  Flush(handle?: FlushHandle<T>): Pool<T> {
+  Flush(handle?: FlushHandle<T>): this {
     const { objects } = this;
+
     if (handle) {
       for (var i = 0; i < objects.length; ++i) {
         handle(objects[i]);
       }
     }
+
     objects.length = 0;
+
     return this;
   }
 
-  Clean(handle?: FlushHandle<T>): Pool<T> {
+  Clean(handle?: FlushHandle<T>): this {
     const amount = this.objects.length;
+
     return this.Flush(handle).Flood(undefined, amount);
   }
 }

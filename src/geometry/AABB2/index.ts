@@ -56,24 +56,26 @@ export default class AABB2 {
     this._area = this._width * this._height;
   }
 
-  Set(topLeftX: number, topLeftY: number, bottomRightX: number, bottomRightY: number): AABB2 {
+  Set(topLeftX: number, topLeftY: number, bottomRightX: number, bottomRightY: number): this {
     this._topLeft.Set(topLeftX, topLeftY);
     this._bottomRight.Set(bottomRightX, bottomRightY);
     this.Compute();
+
     return this;
   }
 
-  SetWith({ topLeftX, topLeftY, bottomRightX, bottomRightY }: BasicAABB2): AABB2 {
+  SetWith({ topLeftX, topLeftY, bottomRightX, bottomRightY }: BasicAABB2): this {
     return this.Set(topLeftX, topLeftY, bottomRightX, bottomRightY);
   }
 
-  SetAsRectangle({ x, y, width, height }: BasicRectangle): AABB2 {
+  SetAsRectangle({ x, y, width, height }: BasicRectangle): this {
     return this.Set(x, y, x + width, y + height);
   }
 
-  SetPosition(x: number, y: number): AABB2 {
+  SetPosition(x: number, y: number): this {
     this._topLeft.Set(x, y);
     this._bottomRight.Set(x + this._width, y + this._height);
+
     return this;
   }
 
@@ -101,6 +103,7 @@ export default class AABB2 {
 
   ContainsAABB2(aabb2: AABB2): boolean {
     if (aabb2.area > this.area) return false;
+
     return (
       aabb2.topLeftX > this._topLeft.x &&
       aabb2.topLeftY > this._topLeft.y &&

@@ -2,15 +2,26 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import { Transform2, Vector2 } from 'math';
-import Bounds2 from 'math/Bounds2';
+import { Transform2, Vector2, Matrix2, Bounds2 } from 'math';
+import { AABB2 } from 'geometry';
+import { Point2 } from 'math/Vector2';
+import Container2 from 'entity/Container2';
+
+const { abs: Abs, sin: Sine, cos: Cosine } = Math;
 
 export default class Core2 {
   transform: Transform2;
   bounds: Bounds2;
   data?: any;
+  transformAutomaticUpdate = true;
+  render = true;
+  private _transformShouldUpdate = true;
   private _width = 0;
   private _height = 0;
+
+  private static PS_NULL_TRANSFORM = new Transform2(0, 0);
+  private static PS_T = new Transform2(0, 0);
+  private static PS_M = new Matrix2();
 
   constructor(x: number, y: number) {
     this.transform = new Transform2(x, y);
@@ -67,5 +78,80 @@ export default class Core2 {
 
   set height(height: number) {
     this.transform.scale.y = height / this._height;
+  }
+
+  get globalX(): number {
+    return this.transform.global.e;
+  }
+
+  get globalY(): number {
+    return this.transform.global.f;
+  }
+
+  UpdateTransform(parent?: Container2): this {
+    if (parent != null) this.transform.UpdateGlobal(parent.transform.global);
+    else this.transform.UpdateGlobal(Core2.PS_NULL_TRANSFORM.global);
+
+    return this;
+  }
+
+  ProcessTransform(parent?: Container2): this {
+    if (this._transformShouldUpdate === true) {
+      this.UpdateTransform(parent);
+      if (this.transformAutomaticUpdate === false) this._transformShouldUpdate = false;
+    }
+
+    return this;
+  }
+
+  RequestTransformUpdate(): this {
+    this._transformShouldUpdate = true;
+
+    return this;
+  }
+
+  GlobalToLocal(v: Vector2, conversion?: Matrix2): Vector2 {
+    const { PS_M, PS_T } = Core2;
+
+    if (conversion) {
+      PS_M.SetMultiple(this.transform.global, conversion);
+      PS_M.Decompose(PS_T);
+    } else {
+      this.transform.global.Decompose(PS_T);
+    }
+
+    v.SubtractV(PS_T.position).DivideV(PS_T.scale).Rotate(-PS_T.rotation);
+
+    return v;
+  }
+
+  ComputeLocalBounds(anchor: Point2): AABB2 {
+    return this.bounds.ComputeLocal(this.x, this.y, Abs(this.width), Abs(this.height), anchor, this);
+  }
+
+  ComputeGlobalBounds(anchor: Point2, conversion?: Matrix2): AABB2 {
+    const { PS_M, PS_T } = Core2;
+
+    if (conversion) {
+      PS_M.SetMultiple(this.transform.global, conversion);
+      PS_M.Decompose(PS_T);
+    } else {
+      this.transform.global.Decompose(PS_T);
+    }
+
+    const { rotation, position, scale } = PS_T;
+    const sineRotation = Sine(rotation);
+    const cosineRotation = Cosine(rotation);
+    const width = this._width * scale.x;
+    const height = this._height * scale.y;
+
+    return this.bounds.ComputeGlobal(
+      position.x,
+      position.y,
+      Abs(width * cosineRotation) + Abs(height * sineRotation),
+      Abs(width * sineRotation) + Abs(height * cosineRotation),
+      anchor,
+      this
+    );
   }
 }

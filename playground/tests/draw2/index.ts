@@ -6,10 +6,12 @@ import Draw2 from 'draw2';
 
 export default function (container: HTMLDivElement): void {
   const canvas = document.createElement('canvas');
+
   canvas.width = 1000;
   canvas.height = 1000;
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   const draw = new Draw2();
+
   container.appendChild(canvas);
   draw
     .Rectangle({

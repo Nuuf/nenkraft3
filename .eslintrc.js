@@ -23,6 +23,38 @@ module.exports = {
       "no-unused-vars": "error",
       "no-undef": "error",
       "@typescript-eslint/no-explicit-any": "off",
-      "no-var": "off"
+      "no-var": "off",
+      "padding-line-between-statements": [
+        "error",
+        {
+          "blankLine": "always",
+          "prev": "block-like",
+          "next": "*"
+        },
+        {
+          "blankLine": "always",
+          "prev": "*",
+          "next": "block-like"
+        },
+        {
+          "blankLine": "always",
+          "prev": ["var", "let", "const"],
+          "next": "*"
+        },
+        {
+          "blankLine": "always",
+          "prev": "*",
+          "next": "return"
+        },
+        { "blankLine": "never", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+      ],
+      "no-multiple-empty-lines": [
+        "error",
+        { 
+          "max": 1,
+          "maxEOF": 0,
+          "maxBOF": 0
+        }
+      ],
     }
   };

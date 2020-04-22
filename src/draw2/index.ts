@@ -138,12 +138,14 @@ export default class Draw2 {
 
   Rectangle(options: DrawOptions & BasicRectangle): Draw2 {
     const { rc, stroke, fill, x, y, width, height } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     rc.beginPath();
     rc.rect(x, y, width, height);
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
@@ -151,6 +153,7 @@ export default class Draw2 {
     const { rc, stroke, fill, x, y, radius, width, height } = options;
     const xWidth = x + width;
     const yHeight = y + height;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     rc.beginPath();
@@ -165,11 +168,13 @@ export default class Draw2 {
     rc.quadraticCurveTo(x, y, x + radius, y);
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
   AABB(options: DrawOptions & BasicAABB2): Draw2 {
     const { rc, stroke, fill, topLeftX, topLeftY, bottomRightX, bottomRightY } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     rc.beginPath();
@@ -179,6 +184,7 @@ export default class Draw2 {
     rc.lineTo(topLeftX, bottomRightY);
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
@@ -191,12 +197,14 @@ export default class Draw2 {
       center: { x, y },
       radius,
     } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     !proceed && rc.beginPath();
     rc.arc(x, y, radius, 0, PII, false);
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
@@ -210,40 +218,50 @@ export default class Draw2 {
       radiusX,
       radiusY,
     } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     !proceed && rc.beginPath();
     rc.ellipse(x, y, radiusX, radiusY, 0, 0, PII, false);
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
   Line(options: DrawOptions & BasicLine2): Draw2 {
     const { rc, stroke, proceed, start, end } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
+
     if (!proceed) {
       rc.beginPath();
       rc.moveTo(start.x, start.y);
     }
+
     rc.lineTo(end.x, end.y);
     stroke && rc.stroke();
+
     return this;
   }
 
   LineChain(options: DrawOptions & { points: Array<Point2> }): Draw2 {
     const { rc, stroke, fill, points, close } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     rc.beginPath();
     rc.moveTo(points[0].x, points[0].y);
+
     for (var i = 1; i < points.length; ++i) {
       rc.lineTo(points[i].x, points[i].y);
     }
+
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
@@ -259,6 +277,7 @@ export default class Draw2 {
       endAngle,
       anticlockwise,
     } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     !proceed && rc.beginPath();
@@ -266,6 +285,7 @@ export default class Draw2 {
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
@@ -282,6 +302,7 @@ export default class Draw2 {
       endAngle,
       anticlockwise,
     } = options;
+
     this.PreDrawBase(options);
     stroke && this.PreDrawStroke(options);
     !proceed && rc.beginPath();
@@ -289,48 +310,61 @@ export default class Draw2 {
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
   Curve(options: DrawOptions & CurveParams): Draw2 {
     const { rc, stroke, fill, proceed, start, control1, control2, radius } = options;
+
     this.PreDrawBase(options);
+
     if (!proceed) {
       rc.beginPath();
       rc.moveTo(start.x, start.y);
     }
+
     rc.arcTo(control1.x, control1.y, control2.x, control2.y, radius);
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
   BezierCurve(options: DrawOptions & BezierCurveParams): Draw2 {
     const { rc, stroke, fill, proceed, start, end, control1, control2 } = options;
+
     this.PreDrawBase(options);
+
     if (!proceed) {
       rc.beginPath();
       rc.moveTo(start.x, start.y);
     }
+
     rc.bezierCurveTo(control1.x, control1.y, control2.x, control2.y, end.x, end.y);
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 
   QuadraticCurve(options: DrawOptions & QuadraticCurveParams): Draw2 {
     const { rc, stroke, fill, proceed, start, end, control1 } = options;
+
     this.PreDrawBase(options);
+
     if (!proceed) {
       rc.beginPath();
       rc.moveTo(start.x, start.y);
     }
+
     rc.quadraticCurveTo(control1.x, control1.y, end.x, end.y);
     close && rc.closePath();
     stroke && rc.stroke();
     fill && rc.fill();
+
     return this;
   }
 }

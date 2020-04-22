@@ -35,29 +35,34 @@ export default class Transform2 {
     }
   }
 
-  SetSkew(x: number, y: number): Transform2 {
+  SetSkew(x: number, y: number): this {
     this._skew.Set(x, y);
+
     return this.UpdateSkew();
   }
 
-  SetWithMatrix(matrix: Matrix2): Transform2 {
+  SetWithMatrix(matrix: Matrix2): this {
     matrix.Decompose(this);
+
     return this.UpdateSkew();
   }
 
-  UpdateLocal(): Transform2 {
+  UpdateLocal(): this {
     const { local, position, scale, pivot, _skewCosineX, _skewCosineY, _skewSineX, _skewSineY } = this;
+
     local.a = _skewCosineY * scale.x;
     local.b = _skewSineY * scale.x;
     local.c = _skewSineX * scale.y;
     local.b = _skewCosineX * scale.y;
     local.e = position.x - pivot.x * local.a + pivot.y * local.c;
     local.f = position.y - pivot.x * local.b + pivot.y * local.d;
+
     return this;
   }
 
-  UpdateGlobal(matrix: Matrix2): Transform2 {
+  UpdateGlobal(matrix: Matrix2): this {
     const { local, global, position, scale, pivot, _skewCosineX, _skewCosineY, _skewSineX, _skewSineY } = this;
+
     local.a = _skewCosineY * scale.x;
     local.b = _skewSineY * scale.x;
     local.c = _skewSineX * scale.y;
@@ -71,11 +76,13 @@ export default class Transform2 {
     global.d = local.c * matrix.b + local.d * matrix.d;
     global.e = local.e * matrix.a + local.f * matrix.c + matrix.e;
     global.f = local.e * matrix.b + local.f * matrix.d + matrix.f;
+
     return this;
   }
 
-  UpdateSkew(): Transform2 {
+  UpdateSkew(): this {
     const { _skew, _rotation } = this;
+
     this._skewCosineX = Cosine(_rotation - _skew.x);
     this._skewCosineY = Cosine(_rotation + _skew.y);
     this._skewSineX = -Sine(_rotation - _skew.x);

@@ -3,5 +3,6 @@
  */
 
 import Core2 from './Core2';
+import Container2 from './Container2';
 
-export { Core2 };
+export { Core2, Container2 };

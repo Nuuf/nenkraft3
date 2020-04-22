@@ -3,6 +3,6 @@
  */
 
 import Pool from './Pool';
-import { AssignIfUndefined } from './functions';
+import * as Functions from './Functions';
 
-export { Pool, AssignIfUndefined };
+export { Pool, Functions };

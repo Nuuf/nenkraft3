@@ -12,7 +12,8 @@
     "build-full": "yarn build-front && yarn build-back",
     "clean-front": "rimraf lib/front",
     "clean-back": "rimraf lib/back",
-    "clean-full": "rimraf lib"
+    "clean-full": "rimraf lib",
+    "lint": "eslint src/**/*.ts playground/**/*.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.27.0",

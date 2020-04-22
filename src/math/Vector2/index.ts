@@ -165,31 +165,31 @@ export default class Vector2 implements Point2 {
     return this.Copy().Positive();
   }
 
-  Set(x: number, y: number): Vector2 {
+  Set(x: number, y: number): this {
     this.x = x;
     this.y = y;
 
     return this;
   }
 
-  SetV(v: Point2 | Vector2): Vector2 {
+  SetV(v: Point2 | Vector2): this {
     return this.Set(v.x, v.y);
   }
 
-  SetSame(xy: number): Vector2 {
+  SetSame(xy: number): this {
     this.x = this.y = xy;
 
     return this;
   }
 
-  Add(x: number, y: number): Vector2 {
+  Add(x: number, y: number): this {
     this.x += x;
     this.y += y;
 
     return this;
   }
 
-  AddV(v: Point2 | Vector2): Vector2 {
+  AddV(v: Point2 | Vector2): this {
     return this.Add(v.x, v.y);
   }
 
@@ -197,14 +197,14 @@ export default class Vector2 implements Point2 {
     return this.Copy().AddV(v);
   }
 
-  Subtract(x: number, y: number): Vector2 {
+  Subtract(x: number, y: number): this {
     this.x -= x;
     this.y -= y;
 
     return this;
   }
 
-  SubtractV(v: Point2 | Vector2): Vector2 {
+  SubtractV(v: Point2 | Vector2): this {
     return this.Subtract(v.x, v.y);
   }
 
@@ -212,14 +212,14 @@ export default class Vector2 implements Point2 {
     return this.Copy().MultiplyV(v);
   }
 
-  Divide(x: number, y: number): Vector2 {
+  Divide(x: number, y: number): this {
     this.x /= x;
     this.y /= y;
 
     return this;
   }
 
-  DivideV(v: Point2 | Vector2): Vector2 {
+  DivideV(v: Point2 | Vector2): this {
     return this.Divide(v.x, v.y);
   }
 
@@ -227,14 +227,14 @@ export default class Vector2 implements Point2 {
     return this.Copy().DivideV(v);
   }
 
-  Multiply(x: number, y: number): Vector2 {
+  Multiply(x: number, y: number): this {
     this.x *= x;
     this.y *= y;
 
     return this;
   }
 
-  MultiplyV(v: Point2 | Vector2): Vector2 {
+  MultiplyV(v: Point2 | Vector2): this {
     return this.Multiply(v.x, v.y);
   }
 
@@ -242,55 +242,55 @@ export default class Vector2 implements Point2 {
     return this.Copy().MultiplyV(v);
   }
 
-  Positive(): Vector2 {
+  Positive(): this {
     this.x = Abs(this.x);
     this.y = Abs(this.y);
 
     return this;
   }
 
-  Negative(): Vector2 {
+  Negative(): this {
     this.x = -Abs(this.x);
     this.y = -Abs(this.y);
 
     return this;
   }
 
-  Normalize(): Vector2 {
+  Normalize(): this {
     const { magnitude } = this;
 
     return this.Divide(magnitude, magnitude);
   }
 
-  Floor(): Vector2 {
+  Floor(): this {
     this.x = this.x | 0;
     this.y = this.y | 0;
 
     return this;
   }
 
-  Ceil(): Vector2 {
+  Ceil(): this {
     this.x = Ceil(this.x);
     this.y = Ceil(this.y);
 
     return this;
   }
 
-  Round(): Vector2 {
+  Round(): this {
     this.x = Round(this.x);
     this.y = Round(this.y);
 
     return this;
   }
 
-  Invert(): Vector2 {
+  Invert(): this {
     this.x = -this.x;
     this.y = -this.y;
 
     return this;
   }
 
-  Rotate(angle: number): Vector2 {
+  Rotate(angle: number): this {
     const sine = Sine(angle);
     const cosine = Cosine(angle);
 
@@ -300,23 +300,23 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  RotateAround(x: number, y: number, angle: number): Vector2 {
+  RotateAround(x: number, y: number, angle: number): this {
     return this.Subtract(x, y).Rotate(angle).Add(x, y);
   }
 
-  RotateAroundV(v: Point2 | Vector2, angle: number): Vector2 {
+  RotateAroundV(v: Point2 | Vector2, angle: number): this {
     return this.RotateAround(v.x, v.y, angle);
   }
 
-  RotateAbsolute(angle: number): Vector2 {
+  RotateAbsolute(angle: number): this {
     return this.Rotate(angle - this.angle);
   }
 
-  RotateAbsoluteAround(x: number, y: number, angle: number): Vector2 {
+  RotateAbsoluteAround(x: number, y: number, angle: number): this {
     return this.Subtract(x, y).RotateAbsolute(angle).Add(x, y);
   }
 
-  RotateAbsoluteAroundV(v: Point2 | Vector2, angle: number): Vector2 {
+  RotateAbsoluteAroundV(v: Point2 | Vector2, angle: number): this {
     return this.RotateAbsoluteAround(v.x, v.y, angle);
   }
 

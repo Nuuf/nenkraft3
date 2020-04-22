@@ -39,6 +39,7 @@ export default class Matrix2 {
     this.d = d;
     this.e = e;
     this.f = f;
+
     return this;
   }
 
@@ -49,6 +50,7 @@ export default class Matrix2 {
     this.d = 1;
     this.e = 0;
     this.f = 0;
+
     return this;
   }
 
@@ -79,7 +81,6 @@ export default class Matrix2 {
     const cosineSkewX = Cosine(skewX);
     const sineSkewY = Sine(skewY);
     const cosineSkewY = Cosine(skewY);
-
     const a = cosineRotation * scaleX;
     const b = sineRotation * scaleX;
     const c = -sineRotation * scaleY;
@@ -100,18 +101,21 @@ export default class Matrix2 {
   Translate(x: number, y: number): Matrix2 {
     this.e += x;
     this.f += y;
+
     return this;
   }
 
   TranslateTo(x: number, y: number): Matrix2 {
     this.e = x;
     this.f = y;
+
     return this;
   }
 
   ApplyTranslation(x: number, y: number): Matrix2 {
     this.e = x * this.a + y * this.c + this.e;
     this.f = x * this.b + y * this.d + this.f;
+
     return this;
   }
 
@@ -120,7 +124,19 @@ export default class Matrix2 {
     this.b *= y;
     this.c *= x;
     this.d *= y;
+
     return this;
+  }
+
+  SetMultiple(a: Matrix2, b: Matrix2): Matrix2 {
+    return this.Set(
+      a.a * b.a + a.b * b.c,
+      a.a * b.a + a.b * b.d,
+      a.c * b.a + a.d * b.c,
+      a.c * b.b + a.d * b.d,
+      a.e * b.a + a.f * b.c + b.e,
+      a.e * b.b + a.f * b.d + b.f
+    );
   }
 
   Scale(x: number, y: number): Matrix2 {
@@ -130,6 +146,7 @@ export default class Matrix2 {
     this.d *= y;
     this.e *= x;
     this.f *= y;
+
     return this;
   }
 
@@ -137,12 +154,14 @@ export default class Matrix2 {
     const sine = Sine(angle);
     const cosine = Cosine(angle);
     const { a, c, e } = this;
+
     this.a = a * cosine - this.b * sine;
     this.b = a * sine + this.b * cosine;
     this.c = c * cosine - this.d * sine;
     this.d = c * sine + this.d * cosine;
     this.e = e * cosine - this.e * sine;
     this.f = e * sine + this.e * cosine;
+
     return this;
   }
 
@@ -154,9 +173,11 @@ export default class Matrix2 {
 
     if (delta < Matrix2.PS_EPSILON) {
       transform.rotation = skewY;
+
       if (a < 0 && d >= 0) {
         transform.rotation += PI;
       }
+
       transform.SetSkew(0, 0);
     } else {
       transform.SetSkew(skewX, skewY);
@@ -164,6 +185,7 @@ export default class Matrix2 {
 
     transform.scale.Set(Sqrt(a * a + b * b), Sqrt(c * c + d * d));
     transform.position.Set(this.e, this.f);
+
     return this;
   }
 
