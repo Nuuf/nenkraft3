@@ -2,11 +2,14 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import { Transform2 } from 'math';
+import { Container2 } from 'entity';
 
 export default function (container: HTMLDivElement): void {
   container.appendChild(document.createElement('canvas'));
-  const transform = new Transform2(0, 0);
+  const parent = new Container2(0, 0);
+  const child = new Container2(0, 0);
 
-  console.log(transform);
+  parent.AddChild(child);
+
+  console.log(parent);
 }

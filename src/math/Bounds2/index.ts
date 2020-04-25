@@ -2,7 +2,7 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import { AABB2 } from 'geometry';
+import AABB2 from 'geometry/AABB2';
 import { Point2 } from 'math/Vector2';
 
 export default class Bounds2 {
@@ -16,6 +16,7 @@ export default class Bounds2 {
       x -= width * anchor.x;
       y -= height * anchor.y;
     }
+
     if (this.local === null) {
       this.local = new AABB2({
         topLeftX: x,
@@ -27,7 +28,9 @@ export default class Bounds2 {
     } else {
       this.local.Set(x, y, x + width, y + height);
     }
+
     this.localDirty = false;
+
     return this.local;
   }
 
@@ -36,6 +39,7 @@ export default class Bounds2 {
       x -= width * anchor.x;
       y -= height * anchor.y;
     }
+
     if (this.global === null) {
       this.global = new AABB2({
         topLeftX: x,
@@ -47,7 +51,9 @@ export default class Bounds2 {
     } else {
       this.global.Set(x, y, x + width, y + height);
     }
+
     this.globalDirty = false;
+
     return this.global;
   }
 }

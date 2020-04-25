@@ -19,6 +19,7 @@ export default class Rectangle implements BasicRectangle {
   width: number;
   height: number;
   belongsTo: any;
+
   constructor({ x, y, width, height }: BasicRectangle) {
     this.x = x;
     this.y = y;

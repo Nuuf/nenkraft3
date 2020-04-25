@@ -2,7 +2,7 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import Core2 from 'entity/Core2';
+import { Core2 } from 'entity';
 
 export default function (container: HTMLDivElement): void {
   container.appendChild(document.createElement('canvas'));

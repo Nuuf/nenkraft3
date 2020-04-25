@@ -3,32 +3,36 @@
  */
 
 import Core2 from 'entity/Core2';
-import { FickleDelete } from 'utility/Functions';
+import FickleDelete from 'utility/Functions/FickleDelete';
 
 // const { abs: Abs, min: Min, max: Max } = Math;
 
 export default class Container2 extends Core2 {
   parent: Container2 | undefined;
   children: Array<Container2> = [];
+  renderChildren = true;
 
   constructor(x: number, y: number) {
     super(x, y);
   }
 
-  Render(): this {
+  Render(ctx: any): this {
     if (this.render === true) {
       this.ProcessTransform(this.parent);
-      if (this.children.length > 0) return this.RenderChildren();
+
+      return this.RenderChildren(ctx);
     }
 
     return this;
   }
 
-  RenderChildren(): this {
+  RenderChildren(ctx: any): this {
     const { children } = this;
 
-    for (var i = 0; i < children.length; ++i) {
-      children[i].Render();
+    if (children.length > 0 && this.renderChildren === true) {
+      for (var i = 0; i < children.length; ++i) {
+        children[i].Render(ctx);
+      }
     }
 
     return this;
@@ -44,7 +48,11 @@ export default class Container2 extends Core2 {
     return child;
   }
 
-  AddChildren(): this {
+  AddChildren<T extends Container2>(...children: Array<T>): this {
+    for (var i = 0; i < children.length; ++i) {
+      this.AddChild(children[i]);
+    }
+
     return this;
   }
 
@@ -68,4 +76,45 @@ export default class Container2 extends Core2 {
 
     return child;
   }
+
+  RemoveChildren<T extends Container2>(...children: Array<T>): Array<T> {
+    const rChildren: Array<T> = [];
+    let child: T | undefined;
+
+    for (var i = 0; i < children.length; ++i) {
+      child = this.RemoveChild(children[i]);
+      if (child) rChildren.push(child);
+    }
+
+    return rChildren;
+  }
+
+  SwapWithIndex(index: number): this {
+    if (this.parent != null) {
+      const { children } = this.parent;
+      const tindex = children.indexOf(this);
+
+      if (tindex !== -1) {
+        if (index === -1) index = children.length - 1;
+        const sibling = children[index];
+
+        children[index] = this;
+        children[tindex] = sibling;
+      }
+    }
+
+    return this;
+  }
+
+  /* SwapWith<T extends Container2>(child: T): this {
+    if (this.parent && this.parent === child.parent) {
+      const pChildren = this.parent.children;
+      const aIndex = pChildren.indexOf(this);
+      const bIndex = pChildren.indexOf(child);
+      if (aIndex !== -1 && bIndex !== -1) {
+
+      }
+    }
+    return this;
+  } */
 }

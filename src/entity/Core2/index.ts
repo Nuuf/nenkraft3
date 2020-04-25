@@ -2,9 +2,11 @@
  * @author Gustav 'Nuuf' Åberg <gustavrein@gmail.com>
  */
 
-import { Transform2, Vector2, Matrix2, Bounds2 } from 'math';
-import { AABB2 } from 'geometry';
-import { Point2 } from 'math/Vector2';
+import Vector2, { Point2 } from 'math/Vector2';
+import Bounds2 from 'math/Bounds2';
+import Transform2 from 'math/Transform2';
+import Matrix2 from 'math/Matrix2';
+import AABB2 from 'geometry/AABB2';
 import Container2 from 'entity/Container2';
 
 const { abs: Abs, sin: Sine, cos: Cosine } = Math;
@@ -86,6 +88,12 @@ export default class Core2 {
 
   get globalY(): number {
     return this.transform.global.f;
+  }
+
+  Render(parent?: Container2): this {
+    if (this.render) return this.ProcessTransform(parent);
+
+    return this;
   }
 
   UpdateTransform(parent?: Container2): this {
