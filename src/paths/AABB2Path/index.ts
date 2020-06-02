@@ -4,8 +4,9 @@
 
 import AABB2, { BasicAABB2 } from 'geometry/AABB2';
 import { FillStrokeShadowStyles, FSSa, FillStrokeShadowStylesParams } from 'style/factoryFunctions';
+import { Path2 } from 'paths/Path2';
 
-export default class AABB2Path {
+export default class AABB2Path implements Path2<AABB2, FillStrokeShadowStyles> {
   shape: AABB2;
   style: FillStrokeShadowStyles;
 
@@ -25,9 +26,9 @@ export default class AABB2Path {
     ctx.lineTo(topLeftX, bottomRightY);
     ctx.closePath();
 
-    if (shadow.applied === true) shadow.Apply(ctx);
-    if (fill.applied === true) fill.Apply(ctx) && ctx.fill();
-    if (stroke.applied === true) stroke.Apply(ctx) && ctx.stroke();
+    shadow.Apply(ctx);
+    fill.Apply(ctx);
+    stroke.Apply(ctx);
 
     return this;
   }

@@ -3,14 +3,15 @@
  */
 
 export type FlushHandle<T> = (object: T) => void;
+export type FloodHandle<T> = () => T;
 
 export default class Pool<T> {
   objects: Array<T> = [];
-  floodFunction: () => T;
+  floodFunction: FloodHandle<T>;
   floodAmount: number;
   context: any;
 
-  constructor(floodFunction: () => T, floodAmount = 10, context?: any) {
+  constructor(floodFunction: FloodHandle<T>, floodAmount = 10, context?: any) {
     this.floodFunction = floodFunction;
     this.floodAmount = floodAmount;
     this.context = context;
@@ -34,7 +35,7 @@ export default class Pool<T> {
     return this.PreRetrieve().objects.pop() as T;
   }
 
-  Flood(func?: () => T, amount?: number, context?: any): this {
+  Flood(func?: FloodHandle<T>, amount?: number, context?: any): this {
     if (func) this.floodFunction = func;
     if (amount) this.floodAmount = amount;
     if (context) this.context = context;

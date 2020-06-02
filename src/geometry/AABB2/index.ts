@@ -4,6 +4,7 @@
 
 import Vector2, { Point2 } from 'math/Vector2';
 import { BasicRectangle } from 'geometry/Rectangle';
+import { Shape2 } from 'geometry/Shape2';
 
 export interface BasicAABB2 {
   topLeftX: number;
@@ -12,7 +13,7 @@ export interface BasicAABB2 {
   bottomRightY: number;
 }
 
-export default class AABB2 {
+export default class AABB2 implements Shape2 {
   private _topLeft: Vector2;
   private _bottomRight: Vector2;
   private _width = 0;
@@ -21,6 +22,10 @@ export default class AABB2 {
   private _halfHeight = 0;
   private _area = 0;
   belongsTo: any;
+
+  static get EMPTY(): BasicAABB2 {
+    return { topLeftX: 0, topLeftY: 0, bottomRightX: 0, bottomRightY: 0 };
+  }
 
   constructor({ topLeftX, topLeftY, bottomRightX, bottomRightY }: BasicAABB2) {
     this._topLeft = Vector2.FromPool(topLeftX, topLeftY);
@@ -48,24 +53,50 @@ export default class AABB2 {
     return this._area;
   }
 
-  private Compute(): void {
+  get width(): number {
+    return this._width;
+  }
+
+  get height(): number {
+    return this._height;
+  }
+
+  Copy(): AABB2 {
+    return new AABB2(this);
+  }
+
+  Compute(): this {
     this._width = this.bottomRightX - this.topLeftX;
     this._height = this.bottomRightY - this.topLeftY;
     this._halfWidth = this._width * 0.5;
     this._halfHeight = this._height * 0.5;
     this._area = this._width * this._height;
+
+    return this;
   }
 
   Set(topLeftX: number, topLeftY: number, bottomRightX: number, bottomRightY: number): this {
     this._topLeft.Set(topLeftX, topLeftY);
     this._bottomRight.Set(bottomRightX, bottomRightY);
-    this.Compute();
 
-    return this;
+    return this.Compute();
   }
 
   SetWith({ topLeftX, topLeftY, bottomRightX, bottomRightY }: BasicAABB2): this {
     return this.Set(topLeftX, topLeftY, bottomRightX, bottomRightY);
+  }
+
+  Scale(x: number, y: number): this {
+    this._bottomRight.Multiply(x, y);
+
+    return this.Compute();
+  }
+
+  UnsafeSet(topLeftX: number, topLeftY: number, bottomRightX: number, bottomRightY: number): this {
+    this._topLeft.Set(topLeftX, topLeftY);
+    this._bottomRight.Set(bottomRightX, bottomRightY);
+
+    return this;
   }
 
   SetAsRectangle({ x, y, width, height }: BasicRectangle): this {

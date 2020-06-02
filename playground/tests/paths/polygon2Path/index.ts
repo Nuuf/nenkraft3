@@ -17,12 +17,18 @@ export default function (container: HTMLDivElement): void {
     {
       vertices: [
         { x: 0, y: 0 },
-        { x: 100, y: 0 },
-        { x: 50, y: 100 },
+        { x: 10, y: 0 },
+        { x: 5, y: 10 },
       ],
     },
     { fill: { color: 'red' }, shadow: { color: 'black', blur: 6, offsetX: 5, offsetY: 5, applied: true } }
   );
+
+  path.shape.Scale(3, 3);
+
+  ctx.setTransform(1, 0, 0, 1, 100, 100);
+
+  path.Draw(ctx);
 
   path.Draw(ctx);
 

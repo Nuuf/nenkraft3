@@ -3,6 +3,6 @@
  */
 
 import Pool from './Pool';
-import * as Functions from './Functions';
+import * as functions from './functions';
 
-export { Pool, Functions };
+export { Pool, functions };

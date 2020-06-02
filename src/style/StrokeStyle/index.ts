@@ -52,6 +52,7 @@ export default class StrokeStyle {
       ctx.miterLimit = this.miterLimit;
       ctx.lineDashOffset = this.lineDashOffset;
       ctx.setLineDash(this.lineDash);
+      ctx.stroke();
     }
 
     return this;

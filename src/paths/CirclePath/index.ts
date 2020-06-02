@@ -26,9 +26,9 @@ export default class CirclePath {
     ctx.arc(x, y, radius, 0, PII);
     ctx.closePath();
 
-    if (shadow.applied === true) shadow.Apply(ctx);
-    if (fill.applied === true) fill.Apply(ctx) && ctx.fill();
-    if (stroke.applied === true) stroke.Apply(ctx) && ctx.stroke();
+    shadow.Apply(ctx);
+    fill.Apply(ctx);
+    stroke.Apply(ctx);
 
     return this;
   }

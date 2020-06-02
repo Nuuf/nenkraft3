@@ -19,6 +19,7 @@ export default class FillStyle {
   Apply(ctx: CanvasRenderingContext2D): this {
     if (this.applied === true) {
       ctx.fillStyle = this.color;
+      ctx.fill();
     }
 
     return this;

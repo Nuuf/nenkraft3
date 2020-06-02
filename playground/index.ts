@@ -9,6 +9,14 @@ console.log(nkf);
 
 const menuContainer = document.createElement('div', { is: 'div' });
 const container = document.createElement('div', { is: 'div' });
+const emptyKill = (): void => {
+  console.log('Empty kill');
+};
+const tools = {
+  onKill: emptyKill,
+};
+
+export type PGTools = typeof tools;
 
 console.log(Tests);
 
@@ -23,8 +31,12 @@ function CreateMenuList(record: Record<string, any>): HTMLUListElement {
       const button = document.createElement('button', { is: 'button' });
 
       button.onclick = (): void => {
+        tools.onKill();
+
+        tools.onKill = emptyKill;
+
         container.innerHTML = '';
-        record[value](container);
+        record[value](container, tools);
       };
 
       item.appendChild(button);

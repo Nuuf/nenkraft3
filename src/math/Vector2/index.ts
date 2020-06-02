@@ -17,6 +17,7 @@ export default class Vector2 implements Point2 {
 
   private static PS_POOL: Pool<Vector2> = new Pool(() => new Vector2(0, 0), 1000);
   private static PS_USE_POOL = true;
+  private static PS_T = new Vector2(0, 0);
 
   constructor(x: number, y: number) {
     this.x = x;
@@ -43,26 +44,26 @@ export default class Vector2 implements Point2 {
     return new Vector2(x, y);
   }
 
-  static GetAngleBetween(a: Point2 | Vector2, b: Point2 | Vector2): number {
+  static GetAngleBetween(a: Point2, b: Point2): number {
     return Atan2(a.y - b.y, a.x - b.y);
   }
 
-  static GetDotProduct(a: Point2 | Vector2, b: Point2 | Vector2): number {
+  static GetDotProduct(a: Point2, b: Point2): number {
     return a.x * b.x + a.y * b.y;
   }
 
-  static GetCrossProduct(a: Point2 | Vector2, b: Point2 | Vector2): number {
+  static GetCrossProduct(a: Point2, b: Point2): number {
     return a.x * b.y + a.y * b.x;
   }
 
-  static GetDistanceSquaredBetween(a: Point2 | Vector2, b: Point2 | Vector2): number {
+  static GetDistanceSquaredBetween(a: Point2, b: Point2): number {
     const x = a.x - b.x;
     const y = a.y - b.y;
 
     return x * x + y * y;
   }
 
-  static GetDistanceBetween(a: Point2 | Vector2, b: Point2 | Vector2): number {
+  static GetDistanceBetween(a: Point2, b: Point2): number {
     return Sqrt(Vector2.GetDistanceSquaredBetween(a, b));
   }
 
@@ -70,20 +71,24 @@ export default class Vector2 implements Point2 {
     return a.Copy().AddV(b).Multiply(0.5, 0.5);
   }
 
-  static GetPerpendicularCW(a: Point2 | Vector2, b: Point2 | Vector2): Vector2 {
+  static GetPerpendicularCW(a: Point2, b: Point2): Vector2 {
     return Vector2.FromPool(b.y - a.y, -(b.x - a.x));
   }
 
-  static GetPerpendicularCCW(a: Point2 | Vector2, b: Point2 | Vector2): Vector2 {
+  static GetPerpendicularCCW(a: Point2, b: Point2): Vector2 {
     return Vector2.FromPool(-(b.y - a.y), b.x - a.x);
   }
 
-  static GetNormalA(a: Point2 | Vector2, b: Point2 | Vector2): Vector2 {
+  static GetNormalA(a: Point2, b: Point2): Vector2 {
     return Vector2.GetPerpendicularCCW(a, b).Normalize();
   }
 
-  static GetNormalB(a: Point2 | Vector2, b: Point2 | Vector2): Vector2 {
+  static GetNormalB(a: Point2, b: Point2): Vector2 {
     return Vector2.GetPerpendicularCW(a, b).Normalize();
+  }
+
+  static GetWeightedAverage(a: Point2, b: Point2, percentage: number): Vector2 {
+    return Vector2.FromPool(a.x * (1 - percentage) + b.x * percentage, a.y * (1 - percentage) + b.y * percentage);
   }
 
   static Reflect(a: Vector2, b: Vector2): Vector2 {
@@ -93,6 +98,12 @@ export default class Vector2 implements Point2 {
     ref.Multiply(2, 2).Multiply(dot, dot);
 
     return a.SubtractVC(ref);
+  }
+
+  static Push(a: Vector2, b: Vector2, magnitude: number): Vector2 {
+    Vector2.PS_T.SetV(a).SubtractV(b).Normalize().Multiply(magnitude, magnitude);
+
+    return a.AddVC(Vector2.PS_T);
   }
 
   static Project(a: Vector2, b: Vector2): Vector2 {
@@ -129,7 +140,7 @@ export default class Vector2 implements Point2 {
     return v;
   }
 
-  static AreEqual(a: Point2 | Vector2, b: Point2 | Vector2): boolean {
+  static AreEqual(a: Point2, b: Point2): boolean {
     return a.x === b.x && a.y === b.y;
   }
 
@@ -172,7 +183,7 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  SetV(v: Point2 | Vector2): this {
+  SetV(v: Point2): this {
     return this.Set(v.x, v.y);
   }
 
@@ -189,11 +200,11 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  AddV(v: Point2 | Vector2): this {
+  AddV(v: Point2): this {
     return this.Add(v.x, v.y);
   }
 
-  AddVC(v: Point2 | Vector2): Vector2 {
+  AddVC(v: Point2): Vector2 {
     return this.Copy().AddV(v);
   }
 
@@ -204,11 +215,11 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  SubtractV(v: Point2 | Vector2): this {
+  SubtractV(v: Point2): this {
     return this.Subtract(v.x, v.y);
   }
 
-  SubtractVC(v: Point2 | Vector2): Vector2 {
+  SubtractVC(v: Point2): Vector2 {
     return this.Copy().MultiplyV(v);
   }
 
@@ -219,11 +230,11 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  DivideV(v: Point2 | Vector2): this {
+  DivideV(v: Point2): this {
     return this.Divide(v.x, v.y);
   }
 
-  DivideVC(v: Point2 | Vector2): Vector2 {
+  DivideVC(v: Point2): Vector2 {
     return this.Copy().DivideV(v);
   }
 
@@ -234,11 +245,11 @@ export default class Vector2 implements Point2 {
     return this;
   }
 
-  MultiplyV(v: Point2 | Vector2): this {
+  MultiplyV(v: Point2): this {
     return this.Multiply(v.x, v.y);
   }
 
-  MultiplyVC(v: Point2 | Vector2): Vector2 {
+  MultiplyVC(v: Point2): Vector2 {
     return this.Copy().MultiplyV(v);
   }
 
@@ -304,7 +315,7 @@ export default class Vector2 implements Point2 {
     return this.Subtract(x, y).Rotate(angle).Add(x, y);
   }
 
-  RotateAroundV(v: Point2 | Vector2, angle: number): this {
+  RotateAroundV(v: Point2, angle: number): this {
     return this.RotateAround(v.x, v.y, angle);
   }
 
@@ -316,7 +327,7 @@ export default class Vector2 implements Point2 {
     return this.Subtract(x, y).RotateAbsolute(angle).Add(x, y);
   }
 
-  RotateAbsoluteAroundV(v: Point2 | Vector2, angle: number): this {
+  RotateAbsoluteAroundV(v: Point2, angle: number): this {
     return this.RotateAbsoluteAround(v.x, v.y, angle);
   }
 

@@ -3,6 +3,7 @@
  */
 
 import Vector2, { Point2 } from 'math/Vector2';
+import { Shape2 } from 'geometry/Shape2';
 
 const { PI } = Math;
 
@@ -17,13 +18,17 @@ export interface BasicEllipse {
   radiusY: number;
 }
 
-export default class Circle implements BasicCircle {
+export default class Circle implements BasicCircle, Shape2 {
   center: Vector2;
   private _radius = 0;
   private _radiusSquared = 0;
   private _diameter = 0;
   private _area = 0;
   belongsTo: any;
+
+  static get EMPTY(): BasicCircle {
+    return { center: { x: 0, y: 0 }, radius: 0 };
+  }
 
   constructor({ center: { x, y }, radius }: BasicCircle) {
     this.center = Vector2.FromPool(x, y);
@@ -82,6 +87,10 @@ export default class Circle implements BasicCircle {
     this.radius = radius;
 
     return this;
+  }
+
+  SetWith({ center: { x, y }, radius }: BasicCircle): this {
+    return this.Set(x, y, radius);
   }
 
   Scale(scale: number): this {

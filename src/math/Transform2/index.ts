@@ -9,11 +9,11 @@ const { sin: Sine, cos: Cosine } = Math;
 
 export default class Transform2 {
   position: Vector2;
-  scale = new Vector2(1, 1);
-  pivot = new Vector2(0, 0);
+  scale = Vector2.FromPool(1, 1);
+  pivot = Vector2.FromPool(0, 0);
   local = new Matrix2();
   global = new Matrix2();
-  private _skew = new Vector2(0, 0);
+  private _skew = Vector2.FromPool(0, 0);
   private _rotation = 0;
   private _skewCosineX = 1;
   private _skewCosineY = 1;
@@ -21,7 +21,7 @@ export default class Transform2 {
   private _skewSineY = 0;
 
   constructor(x: number, y: number) {
-    this.position = new Vector2(x, y);
+    this.position = Vector2.FromPool(x, y);
   }
 
   get rotation(): number {
@@ -53,9 +53,9 @@ export default class Transform2 {
     local.a = _skewCosineY * scale.x;
     local.b = _skewSineY * scale.x;
     local.c = _skewSineX * scale.y;
-    local.b = _skewCosineX * scale.y;
-    local.e = position.x - pivot.x * local.a + pivot.y * local.c;
-    local.f = position.y - pivot.x * local.b + pivot.y * local.d;
+    local.d = _skewCosineX * scale.y;
+    local.e = position.x - (pivot.x * local.a + pivot.y * local.c);
+    local.f = position.y - (pivot.x * local.b + pivot.y * local.d);
 
     return this;
   }
@@ -66,9 +66,9 @@ export default class Transform2 {
     local.a = _skewCosineY * scale.x;
     local.b = _skewSineY * scale.x;
     local.c = _skewSineX * scale.y;
-    local.b = _skewCosineX * scale.y;
-    local.e = position.x - pivot.x * local.a + pivot.y * local.c;
-    local.f = position.y - pivot.x * local.b + pivot.y * local.d;
+    local.d = _skewCosineX * scale.y;
+    local.e = position.x - (pivot.x * local.a + pivot.y * local.c);
+    local.f = position.y - (pivot.x * local.b + pivot.y * local.d);
 
     global.a = local.a * matrix.a + local.b * matrix.c;
     global.b = local.a * matrix.b + local.b * matrix.d;

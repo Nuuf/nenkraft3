@@ -23,8 +23,8 @@ export default class CirclePath {
     ctx.lineTo(end.x, end.y);
     ctx.closePath();
 
-    if (shadow.applied === true) shadow.Apply(ctx);
-    if (stroke.applied === true) stroke.Apply(ctx) && ctx.stroke();
+    shadow.Apply(ctx);
+    stroke.Apply(ctx);
 
     return this;
   }

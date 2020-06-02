@@ -8,5 +8,6 @@ import geometry from './geometry';
 import draw2 from './draw2';
 import entity from './entity';
 import paths from './paths';
+import event from './event';
 
-export default { utility, math, geometry, draw2, entity, paths };
+export default { utility, math, geometry, draw2, entity, paths, event };

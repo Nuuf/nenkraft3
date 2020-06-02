@@ -13,13 +13,14 @@ const { abs: Abs, sin: Sine, cos: Cosine } = Math;
 
 export default class Core2 {
   transform: Transform2;
-  bounds: Bounds2;
+  bounds: Bounds2 = new Bounds2();
   data?: any;
   transformAutomaticUpdate = true;
   render = true;
+  anchor: Vector2 = Vector2.FromPool(0, 0);
   private _transformShouldUpdate = true;
-  private _width = 0;
-  private _height = 0;
+  protected _width = 0;
+  protected _height = 0;
 
   private static PS_NULL_TRANSFORM = new Transform2(0, 0);
   private static PS_T = new Transform2(0, 0);
@@ -27,7 +28,6 @@ export default class Core2 {
 
   constructor(x: number, y: number) {
     this.transform = new Transform2(x, y);
-    this.bounds = new Bounds2();
   }
 
   get position(): Vector2 {
@@ -161,5 +161,12 @@ export default class Core2 {
       anchor,
       this
     );
+  }
+
+  SetSourceSize(width: number, height: number): this {
+    this._width = width;
+    this._height = height;
+
+    return this;
   }
 }

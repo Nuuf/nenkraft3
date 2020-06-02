@@ -5,12 +5,16 @@
 import { Point2 } from 'math/Vector2';
 import { BasicRectangle, BasicRoundRectangle } from 'geometry/Rectangle';
 import { BasicCircle, BasicEllipse } from 'geometry/Circle';
-import { PII } from 'math';
+import { constants, Matrix2 } from 'math';
 import { BasicAABB2 } from 'geometry/AABB2';
 import { BasicLine2 } from 'geometry/Line2';
+import { ApplyMatrix } from 'utility/functions';
+
+const PII = constants.PII;
 
 export type DrawOptions = {
   rc: CanvasRenderingContext2D;
+  transform?: Matrix2;
   identity?: boolean;
   stroke?: boolean;
   fill?: boolean;
@@ -89,6 +93,7 @@ export default class Draw2 {
     const {
       rc,
       identity,
+      transform,
       fillStyle,
       globalAlpha,
       shadowOffsetX,
@@ -99,6 +104,7 @@ export default class Draw2 {
     } = options;
 
     identity && rc.setTransform(1, 0, 0, 1, 0, 0);
+    transform && ApplyMatrix(rc, transform);
 
     rc.fillStyle = fillStyle ? fillStyle : 'rgb(100, 150, 200)';
     rc.globalAlpha = globalAlpha ? globalAlpha : 0.7;
